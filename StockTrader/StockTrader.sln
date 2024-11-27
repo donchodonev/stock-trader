@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Orders", "Stock
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Portfolios", "StockTrader.Portfolios\StockTrader.Portfolios.csproj", "{9A45A522-17B7-4C8B-B622-4C897A1CD3BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Infrastructure", "StockTrader.Infrastructure\StockTrader.Infrastructure.csproj", "{2F794884-2A20-465B-8F25-73619C089E7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9A45A522-17B7-4C8B-B622-4C897A1CD3BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A45A522-17B7-4C8B-B622-4C897A1CD3BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A45A522-17B7-4C8B-B622-4C897A1CD3BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F794884-2A20-465B-8F25-73619C089E7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F794884-2A20-465B-8F25-73619C089E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F794884-2A20-465B-8F25-73619C089E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F794884-2A20-465B-8F25-73619C089E7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
