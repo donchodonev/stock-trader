@@ -2,13 +2,11 @@ using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using StockTrader.Utils;
-
-var postgreSqlContainer = DbContainerFactory.GetPostgreSqlContainer("Test2", "user", "password", 5433);
-
-await postgreSqlContainer.StartAsync();
+using StockTrader.Infrastructure.Factories;
 
 var builder = FunctionsApplication.CreateBuilder(args);
+var postgreSqlContainer = DbContainerFactory.GetPostgreSqlContainer(builder.Configuration, "PortfoliosDb", 5552);
+await postgreSqlContainer.StartAsync();
 
 var serviceProvider = builder
     .Services

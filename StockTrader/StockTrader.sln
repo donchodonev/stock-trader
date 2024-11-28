@@ -9,9 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Orders", "Stock
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Portfolios", "StockTrader.Portfolios\StockTrader.Portfolios.csproj", "{9A45A522-17B7-4C8B-B622-4C897A1CD3BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Utils", "StockTrader.Infrastructure\StockTrader.Utils.csproj", "{2F794884-2A20-465B-8F25-73619C089E7A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Prices", "StockTrader.Prices\StockTrader.Prices.csproj", "{28F91FFC-E1F0-4ED6-83D3-57F2DE099F58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Core", "StockTrader.Core\StockTrader.Core.csproj", "{8F6C3022-2F73-4787-98EC-6072397567AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Infrastructure", "StockTrader.Infrastructure\StockTrader.Infrastructure.csproj", "{AD294C67-54F7-4DCE-938F-85EBDB59852A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +33,18 @@ Global
 		{9A45A522-17B7-4C8B-B622-4C897A1CD3BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A45A522-17B7-4C8B-B622-4C897A1CD3BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A45A522-17B7-4C8B-B622-4C897A1CD3BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F794884-2A20-465B-8F25-73619C089E7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F794884-2A20-465B-8F25-73619C089E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F794884-2A20-465B-8F25-73619C089E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F794884-2A20-465B-8F25-73619C089E7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{28F91FFC-E1F0-4ED6-83D3-57F2DE099F58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{28F91FFC-E1F0-4ED6-83D3-57F2DE099F58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28F91FFC-E1F0-4ED6-83D3-57F2DE099F58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28F91FFC-E1F0-4ED6-83D3-57F2DE099F58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F6C3022-2F73-4787-98EC-6072397567AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F6C3022-2F73-4787-98EC-6072397567AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F6C3022-2F73-4787-98EC-6072397567AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F6C3022-2F73-4787-98EC-6072397567AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD294C67-54F7-4DCE-938F-85EBDB59852A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD294C67-54F7-4DCE-938F-85EBDB59852A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD294C67-54F7-4DCE-938F-85EBDB59852A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD294C67-54F7-4DCE-938F-85EBDB59852A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

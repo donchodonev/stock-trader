@@ -1,26 +1,38 @@
 using Microsoft.Azure.Functions.Worker.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using StockTrader.Utils;
-
-var postgreSqlContainer = DbContainerFactory.GetPostgreSqlContainer("Test", "user", "password", 5432);
-
-await postgreSqlContainer.StartAsync();
+using StockTrader.Infrastructure.Data.DbContexts.OrderService;
+using StockTrader.Infrastructure.Factories;
 
 var builder = FunctionsApplication.CreateBuilder(args);
-var serviceProvider = builder
-    .Services
-    .BuildServiceProvider()
-    .GetRequiredService<IHostApplicationLifetime>()
+
+var postgreSqlContainer = DbContainerFactory.GetPostgreSqlContainer(builder.Configuration, "OrdersDb", 5551);
+await postgreSqlContainer.StartAsync();
+
+builder.Services.AddFunctionsWorkerDefaults();
+builder.Services.AddFunctionsWorkerCore();
+
+builder.Services.AddDbContext<OrderServiceDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("OrdersDb"));
+});
+
+var serviceProvider = builder.Services.BuildServiceProvider();
+
+using (var scope = serviceProvider.CreateScope())
+{
+    scope.ServiceProvider.GetRequiredService<OrderServiceDbContext>().Database.Migrate();
+}
+
+serviceProvider.GetRequiredService<IHostApplicationLifetime>()
     .ApplicationStopping
     .Register(async () =>
     {
         await postgreSqlContainer.StopAsync();
         await postgreSqlContainer.DisposeAsync();
-        Console.WriteLine("Container disposed");
     });
 
-builder.Services.AddFunctionsWorkerDefaults();
-builder.Services.AddFunctionsWorkerCore();
 builder.Build().Run();
