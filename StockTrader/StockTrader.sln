@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Orders", "Stock
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Portfolios", "StockTrader.Portfolios\StockTrader.Portfolios.csproj", "{9A45A522-17B7-4C8B-B622-4C897A1CD3BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Infrastructure", "StockTrader.Infrastructure\StockTrader.Infrastructure.csproj", "{2F794884-2A20-465B-8F25-73619C089E7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Utils", "StockTrader.Infrastructure\StockTrader.Utils.csproj", "{2F794884-2A20-465B-8F25-73619C089E7A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Prices", "StockTrader.Prices\StockTrader.Prices.csproj", "{28F91FFC-E1F0-4ED6-83D3-57F2DE099F58}"
 EndProject

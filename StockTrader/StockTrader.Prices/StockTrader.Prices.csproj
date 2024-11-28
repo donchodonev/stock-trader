@@ -14,7 +14,7 @@
       <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StockTrader.Infrastructure\StockTrader.Infrastructure.csproj" />
+    <ProjectReference Include="..\StockTrader.Infrastructure\StockTrader.Utils.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

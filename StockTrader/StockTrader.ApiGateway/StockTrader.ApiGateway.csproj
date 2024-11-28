@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StockTrader.Infrastructure\StockTrader.Infrastructure.csproj" />
+    <ProjectReference Include="..\StockTrader.Infrastructure\StockTrader.Utils.csproj" />
   </ItemGroup>
 
 </Project>

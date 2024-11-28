@@ -1,6 +1,6 @@
 ﻿using Testcontainers.PostgreSql;
 
-namespace StockTrader.Infrastructure
+namespace StockTrader.Utils
 {
     public static class DbContainerFactory
     {
@@ -12,7 +12,7 @@ namespace StockTrader.Infrastructure
             int containerPort = 5432)
         {
             var postgreSqlContainer = new PostgreSqlBuilder()
-                .WithImage("postgres:16")
+                .WithImage("postgres:latest")
                 .WithDatabase(dbName)
                 .WithUsername(dbUser)
                 .WithPassword(dbPassword)

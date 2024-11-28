@@ -2,7 +2,7 @@ using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using StockTrader.Infrastructure;
+using StockTrader.Utils;
 
 var postgreSqlContainer = DbContainerFactory.GetPostgreSqlContainer("Test3", "user", "password", 5434);
 
