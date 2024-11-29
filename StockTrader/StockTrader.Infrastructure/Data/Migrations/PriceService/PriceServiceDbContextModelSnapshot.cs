@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using StockTrader.Infrastructure.Data.DbContexts.OrderService;
+using StockTrader.Infrastructure.Data.DbContexts.PriceService;
 
 #nullable disable
 
-namespace StockTrader.Infrastructure.Migrations.OrderService
+namespace StockTrader.Infrastructure.Data.Migrations.PriceService
 {
-    [DbContext(typeof(OrderServiceDbContext))]
-    partial class OrderServiceDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PriceServiceDbContext))]
+    partial class PriceServiceDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -22,25 +22,19 @@ namespace StockTrader.Infrastructure.Migrations.OrderService
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("StockTrader.Core.Entities.Order", b =>
+            modelBuilder.Entity("StockTrader.Core.Entities.Stock", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<short>("OrderStatus")
-                        .HasColumnType("smallint");
-
-                    b.Property<int>("PersonId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<string>("Ticker")
                         .IsRequired()
@@ -52,7 +46,7 @@ namespace StockTrader.Infrastructure.Migrations.OrderService
 
                     b.HasKey("Id");
 
-                    b.ToTable("Order");
+                    b.ToTable("Stock");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,21 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StockTrader.Infrastructure.Data.DbContexts.OrderService;
 
 #nullable disable
 
-namespace StockTrader.Infrastructure.Migrations.OrderService
+namespace StockTrader.Infrastructure.Data.Migrations.OrderService
 {
     [DbContext(typeof(OrderServiceDbContext))]
-    [Migration("20241128162652_InitialMigration")]
-    partial class InitialMigration
+    partial class OrderServiceDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

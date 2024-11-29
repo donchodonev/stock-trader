@@ -9,10 +9,10 @@ using StockTrader.Infrastructure.Data.DbContexts.PortfolioService;
 
 #nullable disable
 
-namespace StockTrader.Infrastructure.Migrations.PortfolioService
+namespace StockTrader.Infrastructure.Data.Migrations.PortfolioService
 {
     [DbContext(typeof(PortfolioServiceDbContext))]
-    [Migration("20241128162707_InitialMigration")]
+    [Migration("20241129084909_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

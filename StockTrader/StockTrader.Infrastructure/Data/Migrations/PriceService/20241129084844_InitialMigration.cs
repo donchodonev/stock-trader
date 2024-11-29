@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace StockTrader.Infrastructure.Migrations.OrderService
+namespace StockTrader.Infrastructure.Data.Migrations.PriceService
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration
@@ -13,21 +13,19 @@ namespace StockTrader.Infrastructure.Migrations.OrderService
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Order",
+                name: "Stock",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PersonId = table.Column<int>(type: "integer", nullable: false),
                     Ticker = table.Column<string>(type: "character varying(4)", maxLength: 4, nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    OrderStatus = table.Column<short>(type: "smallint", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.PrimaryKey("PK_Stock", x => x.Id);
                 });
         }
 
@@ -35,7 +33,7 @@ namespace StockTrader.Infrastructure.Migrations.OrderService
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "Stock");
         }
     }
 }

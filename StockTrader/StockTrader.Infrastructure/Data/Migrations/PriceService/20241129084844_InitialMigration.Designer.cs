@@ -9,10 +9,10 @@ using StockTrader.Infrastructure.Data.DbContexts.PriceService;
 
 #nullable disable
 
-namespace StockTrader.Infrastructure.Migrations.PriceService
+namespace StockTrader.Infrastructure.Data.Migrations.PriceService
 {
     [DbContext(typeof(PriceServiceDbContext))]
-    [Migration("20241128162831_InitialMigration")]
+    [Migration("20241129084844_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

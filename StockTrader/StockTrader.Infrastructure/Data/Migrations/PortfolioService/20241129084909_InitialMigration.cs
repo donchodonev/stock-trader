@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace StockTrader.Infrastructure.Migrations.PortfolioService
+namespace StockTrader.Infrastructure.Data.Migrations.PortfolioService
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration

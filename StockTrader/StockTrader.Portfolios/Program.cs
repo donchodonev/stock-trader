@@ -1,25 +1,32 @@
+using Azure.Messaging.ServiceBus;
+
 using Microsoft.Azure.Functions.Worker.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using StockTrader.Core.Interfaces;
+using StockTrader.Infrastructure.Clients;
+using StockTrader.Infrastructure.Data.DbContexts.PortfolioService;
+using StockTrader.Infrastructure.Extensions;
 using StockTrader.Infrastructure.Factories;
 
 var builder = FunctionsApplication.CreateBuilder(args);
 var postgreSqlContainer = DbContainerFactory.GetPostgreSqlContainer(builder.Configuration, "PortfoliosDb", 5552);
 await postgreSqlContainer.StartAsync();
 
-var serviceProvider = builder
-    .Services
-    .BuildServiceProvider()
-    .GetRequiredService<IHostApplicationLifetime>()
-    .ApplicationStopping
-    .Register(async () =>
-    {
-        await postgreSqlContainer.StopAsync();
-        await postgreSqlContainer.DisposeAsync();
-        Console.WriteLine("Container disposed");
-    });
-
 builder.Services.AddFunctionsWorkerDefaults();
 builder.Services.AddFunctionsWorkerCore();
+
+builder.Services.AddSingleton(new ServiceBusClient(builder.Configuration.GetConnectionString("AzureServiceBusSendListenConnectionString")));
+builder.Services.AddSingleton<IMessageClient, AzureServiceBusClient>();
+
+builder.Services.AddDbContext<PortfolioServiceDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PortfoliosDb"));
+});
+builder.Services.MigrateDatabase<PortfolioServiceDbContext>();
+builder.Services.RegisterContainerDisposalDelegate(postgreSqlContainer);
+
 builder.Build().Run();

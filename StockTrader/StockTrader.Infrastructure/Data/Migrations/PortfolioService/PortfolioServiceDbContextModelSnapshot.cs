@@ -8,7 +8,7 @@ using StockTrader.Infrastructure.Data.DbContexts.PortfolioService;
 
 #nullable disable
 
-namespace StockTrader.Infrastructure.Migrations.PortfolioService
+namespace StockTrader.Infrastructure.Data.Migrations.PortfolioService
 {
     [DbContext(typeof(PortfolioServiceDbContext))]
     partial class PortfolioServiceDbContextModelSnapshot : ModelSnapshot
