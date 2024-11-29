@@ -13,6 +13,8 @@ using StockTrader.Infrastructure.Extensions;
 using StockTrader.Infrastructure.Factories;
 
 var builder = FunctionsApplication.CreateBuilder(args);
+builder.Configuration.AddUserSecrets<Program>();
+
 var postgreSqlContainer = DbContainerFactory.GetPostgreSqlContainer(builder.Configuration, "PortfoliosDb", 5552);
 await postgreSqlContainer.StartAsync();
 

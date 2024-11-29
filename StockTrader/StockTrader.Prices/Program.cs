@@ -15,6 +15,8 @@ using StockTrader.Infrastructure.Extensions;
 using StockTrader.Infrastructure.Factories;
 
 var builder = FunctionsApplication.CreateBuilder(args);
+builder.Configuration.AddUserSecrets<Program>();
+
 var postgreSqlWriteContainer = DbContainerFactory.GetPostgreSqlContainer(builder.Configuration, "PriceDb", 5554);
 await postgreSqlWriteContainer.StartAsync();
 
