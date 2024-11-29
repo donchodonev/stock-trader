@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
+  },
+  "ConnectionStrings": {
+    "PriceDb": "Host=localhost:5554;Database=Prices;Username=user;Password=password",
+    "AzureServiceBusSendOnlyConnectionString": "",
+    "AzureServiceBusSendListenConnectionString": ""
+  }
+}
