@@ -28,7 +28,7 @@ Possible program flows:
     1.Clone the repo
     2.Make sure you have Docker installed on your machine
     3.Open the project in VisualStudio 2022
-    3.Add an Azure Service Bus connection string in the appsettings.json file for each project
+    3.Add an Azure Service Bus connection string in the local.settings.json file for each project
     4.From the launch settings choose "Launch all"
 
     The Program.cs file of each microservice contains logic for creating a Docker container
