@@ -6,7 +6,8 @@ local.settings.json
 
 # User-specific files
 *.suo
-*.user
+*.csproj.user
+*.json.user
 *.userosscache
 *.sln.docstates
 

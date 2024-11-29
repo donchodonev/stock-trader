@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "Launch all",
+    "Projects": [
+      {
+        "Path": "StockTrader.Prices\\StockTrader.Prices.csproj",
+        "Action": "Start",
+        "DebugTarget": "StockTrader.Prices"
+      },
+      {
+        "Path": "StockTrader.ApiGateway\\StockTrader.ApiGateway.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "StockTrader.Orders\\StockTrader.Orders.csproj",
+        "Action": "Start",
+        "DebugTarget": "LocalFunctionProj"
+      },
+      {
+        "Path": "StockTrader.Portfolios\\StockTrader.Portfolios.csproj",
+        "Action": "Start",
+        "DebugTarget": "StockTrader.Portfolios"
+      }
+    ]
+  }
+]
