@@ -1,6 +1,6 @@
 ﻿namespace StockTrader.Core.Interfaces
 {
-    public interface IPriceService
+    public interface IStockService
     {
         public Task SendPriceAsync();
     }

@@ -10,6 +10,7 @@ using StockTrader.Application.Services;
 using StockTrader.Core.Interfaces;
 using StockTrader.Infrastructure.Clients;
 using StockTrader.Infrastructure.Data.DbContexts.PriceService;
+using StockTrader.Infrastructure.Data.Repositories;
 using StockTrader.Infrastructure.Extensions;
 using StockTrader.Infrastructure.Factories;
 
@@ -21,7 +22,9 @@ builder.Services.AddFunctionsWorkerDefaults();
 builder.Services.AddFunctionsWorkerCore();
 builder.Services.AddSingleton(new ServiceBusClient(builder.Configuration.GetConnectionString("AzureServiceBusSendOnlyConnectionString")));
 builder.Services.AddSingleton<IMessageClient, AzureServiceBusClient>();
-builder.Services.AddScoped<IPriceService, PriceService>();
+builder.Services.AddScoped<IStockService, StockService>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<DbContext, PriceServiceDbContext>();
 builder.Services.AddDbContext<PriceServiceDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("PriceDb"));

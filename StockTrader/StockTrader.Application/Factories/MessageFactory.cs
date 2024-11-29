@@ -1,10 +1,11 @@
 ﻿using StockTrader.Application.Messages;
+using StockTrader.Core.Entities;
 
 namespace StockTrader.Application.Factories
 {
     public static class MessageFactory
     {
-        public static NewPriceMessage CreateNewPriceMessage(string ticker, decimal price)
-            => new NewPriceMessage(Core.Enums.MessageSource.PriceService, (ticker, price));
+        public static NewPriceMessage ToNewPriceMessage(this Stock stock)
+            => new NewPriceMessage(Core.Enums.MessageSource.PriceService, (stock.Ticker, stock.Price));
     }
 }

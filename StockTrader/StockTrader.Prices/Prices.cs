@@ -8,9 +8,9 @@ namespace StockTrader.Prices
     public class Prices
     {
         private readonly ILogger _logger;
-        private readonly IPriceService _priceService;
+        private readonly IStockService _priceService;
 
-        public Prices(ILoggerFactory loggerFactory, IPriceService priceService)
+        public Prices(ILoggerFactory loggerFactory, IStockService priceService)
         {
             _logger = loggerFactory.CreateLogger<Prices>();
             _priceService = priceService;
