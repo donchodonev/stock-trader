@@ -17,10 +17,16 @@ Possible program flows:
       saves the order and then send a message to the portfolio microservice.
 
     5.The portfolio microservice consumes the message from the order service and 
-      creates a portfolio for the user with his number of stocks and their price
+      creates a portfolio for the user with his number of stocks and their price.
+
+      5a.Whether the operation fails or succeeds the order status is updated asynchronously
+      by having a message sent back to the order service asynchronously
       
     6.The user can hit the API gateway with a GET request which is then routed to
       the portfolio microservice to return the user's portfolio information.
+
+    7.The user can hit the API gateway with a GET request which is then routed to
+    the order microservice to return the order information.
       
 
 
@@ -29,6 +35,7 @@ Possible program flows:
     2.Make sure you have Docker installed on your machine
     3.Open the project in VisualStudio 2022
     3.Add an Azure Service Bus connection string in the local.settings.json file for each project
+      or preferrably do it via user secrets
     4.From the launch settings choose "Launch all"
 
     The Program.cs file of each microservice contains logic for creating a Docker container
@@ -42,3 +49,21 @@ Possible program flows:
 
 From the launch settings choose to run just the pricing microservice
 Once you see it running - you can again use the "Launch all" option
+
+## Supported HTTP requests
+
+#### Placing an order
+
+POST localhost:5003/api/order
+{
+    "personId": 1,
+    "ticker": "AAPL",
+    "quantity": 1,
+    "orderAction": 1
+}
+
+#### Fetching person portfolio
+GET localhost:5003/api/person/{personId}/portfolio
+
+#### Fetching order status (orderId is returned from the API after placing the order)
+GET localhost:5003/api/order/{orderId} 
