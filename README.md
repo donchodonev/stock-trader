@@ -76,4 +76,10 @@ GET localhost:5003/api/person/{personId}/portfolio
 #### Fetching order status (orderId is returned from the API after placing the order)
 GET localhost:5003/api/order/{orderId} 
 
+#### Solution diagram
+
 ![alt text](https://github.com/donchodonev/stock-trader/blob/main/architecture%20diagram.drawio.png?raw=true)
+
+#### Expected result
+
+![alt text](https://github.com/donchodonev/stock-trader/blob/main/expected%20result.png?raw=true)
