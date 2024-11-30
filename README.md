@@ -31,12 +31,15 @@ Possible program flows:
 
 
 ## How to run
+    0.Make sure you have .NET8
     1.Clone the repo
     2.Make sure you have Docker installed on your machine
     3.Open the project in VisualStudio 2022
     3.Add an Azure Service Bus connection string in the local.settings.json file for each project
       or preferrably do it via user secrets
     4.From the launch settings choose "Launch all"
+    
+    NB! If you don't have PostgreSQL docker image downloaded - the first run might take longer.
 
     The Program.cs file of each microservice contains logic for creating a Docker container
     for each of the microservices' PostgreSQL databases.
@@ -49,6 +52,11 @@ Possible program flows:
 
 From the launch settings choose to run just the pricing microservice
 Once you see it running - you can again use the "Launch all" option
+
+#### Error - "There is no Functions runtime available that matches the version project specified by the project"
+
+Go to Visual Studio 2022 -> Tools -> Options -> Projects & Solutions -> Azure functions and click on the "Check for updates" button.
+Then select "Download & Install"
 
 ## Supported HTTP requests
 
@@ -67,3 +75,5 @@ GET localhost:5003/api/person/{personId}/portfolio
 
 #### Fetching order status (orderId is returned from the API after placing the order)
 GET localhost:5003/api/order/{orderId} 
+
+![alt text](https://github.com/donchodonev/stock-trader/blob/main/architecture%20diagram.drawio.png?raw=true)
