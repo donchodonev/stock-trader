@@ -13,10 +13,11 @@ namespace StockTrader.Application.Factories
                 PersonId = request.PersonId,
                 Quantity = request.Quantity,
                 Ticker = request.Ticker,
+                OrderAction = request.OrderAction,
                 OrderStatus = OrderStatus.InProgress,
             };
 
         public static OrderDto ToDto(this Order order)
-            => new OrderDto(order.Id, order.PersonId, order.Ticker, order.Quantity, order.OrderStatus);
+            => new OrderDto(order.Id, order.PersonId, order.Ticker, order.Quantity, order.OrderStatus, order.OrderAction);
     }
 }

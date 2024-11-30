@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using StockTrader.Application.Constants;
-using StockTrader.Application.DTOs;
 using StockTrader.Application.Factories;
 using StockTrader.Core.Entities;
+using StockTrader.Core.Enums;
 using StockTrader.Core.Interfaces;
 using StockTrader.Core.Requests;
 
@@ -18,6 +18,12 @@ namespace StockTrader.Application.Services
             _logger.LogInformation($"Entered {nameof(CreateOrderAsync)} at {DateTime.UtcNow}");
 
             var order = request.CreateOrder();
+
+            if (request.OrderAction == OrderAction.Invalid)
+            {
+                return -1;
+            }
+
             await orderRepository.AddAsync(order);
 
             await messageClient.SendMessageAsync(order.ToOrderMessage(), MessagingConstants.Topics.ORDER_SENT);

@@ -2,7 +2,7 @@
 
 namespace StockTrader.Application.DTOs
 {
-    public class OrderDto(long id, int personId, string ticker, int quantity, OrderStatus orderStatus)
+    public class OrderDto(long id, int personId, string ticker, int quantity, OrderStatus orderStatus, OrderAction orderAction)
     {
         public long Id { get; set; } = id;
 
@@ -11,6 +11,8 @@ namespace StockTrader.Application.DTOs
         public string Ticker { get; set; } = ticker;
 
         public int Quantity { get; set; } = quantity;
+
+        public OrderAction OrderAction { get; set; } = orderAction;
 
         public OrderStatus OrderStatus { get; set; } = orderStatus;
     }

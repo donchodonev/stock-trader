@@ -4,6 +4,7 @@ using StockTrader.Application.Constants;
 using StockTrader.Application.DTOs;
 using StockTrader.Application.Factories;
 using StockTrader.Core.Entities;
+using StockTrader.Core.Enums;
 using StockTrader.Core.Interfaces;
 
 namespace StockTrader.Application.Handlers
@@ -30,8 +31,16 @@ namespace StockTrader.Application.Handlers
                 .FirstOrDefaultAsync();
 
             var personNewStock = new PersonStock { Quantity = message.Payload.Quantity, Stock = stock };
+
+            var isSellOperation = message.Payload.OrderAction == OrderAction.Sell;
             if (person == null)
             {
+                if (isSellOperation)
+                {
+                    await messageClient.SendMessageAsync(message.ToFailedOrderMessage(), MessagingConstants.Topics.ORDER_RETURNED);
+                    return;
+                }
+
                 person = new Person { Id = message.Payload.PersonId, };
                 person.PersonStocks = new List<PersonStock> { personNewStock };
                 await personRepository.AddAsync(person);
@@ -42,11 +51,23 @@ namespace StockTrader.Application.Handlers
 
             if (personExistingStock == null)
             {
+                if (isSellOperation)
+                {
+                    await messageClient.SendMessageAsync(message.ToFailedOrderMessage(), MessagingConstants.Topics.ORDER_RETURNED);
+                    return;
+                }
+
                 person.PersonStocks.Add(personNewStock);
             }
             else
             {
-                personExistingStock.Quantity = message.Payload.Quantity;
+                if (isSellOperation && personExistingStock.Quantity - message.Payload.Quantity < 0)
+                {
+                    await messageClient.SendMessageAsync(message.ToFailedOrderMessage(), MessagingConstants.Topics.ORDER_RETURNED);
+                    return;
+                }
+
+                personExistingStock.Quantity += message.Payload.Quantity;
             }
 
             await personRepository.SaveChangesAsync();

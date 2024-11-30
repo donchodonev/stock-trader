@@ -12,9 +12,17 @@ namespace StockTrader.Application.Factories
             => new PriceMessage(MessageSource.PriceService, new PriceDto(stock.Ticker, stock.Price));
 
         public static OrderMessage ToOrderMessage(this Order order)
-            => new OrderMessage(MessageSource.OrderService, new OrderDto(order.Id, order.PersonId, order.Ticker, order.Quantity, order.OrderStatus));
+            => new OrderMessage(MessageSource.OrderService, new OrderDto(order.Id, order.PersonId, order.Ticker, order.Quantity, order.OrderStatus, order.OrderAction));
 
         public static OrderMessage ToFailedOrderMessage(this IMessage<OrderDto> message)
-            => new OrderMessage(MessageSource.PortfolioService, new OrderDto(message.Payload.Id, message.Payload.PersonId, message.Payload.Ticker, message.Payload.Quantity, OrderStatus.Failed));
+            => new OrderMessage(
+                MessageSource.PortfolioService,
+                new OrderDto(
+                    message.Payload.Id,
+                    message.Payload.PersonId,
+                    message.Payload.Ticker,
+                    message.Payload.Quantity,
+                    OrderStatus.Failed,
+                    message.Payload.OrderAction));
     }
 }

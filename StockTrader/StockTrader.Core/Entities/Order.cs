@@ -13,6 +13,8 @@ namespace StockTrader.Core.Entities
 
         public int Quantity { get; set; }
 
+        public OrderAction OrderAction { get; set; }
+
         public OrderStatus OrderStatus { get; set; }
 
         public DateTime CreatedOn { get; set; }
