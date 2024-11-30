@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 
 using StockTrader.Application.DTOs;
 using StockTrader.Application.Handlers;
+using StockTrader.Application.Services;
 using StockTrader.Core.Interfaces;
 using StockTrader.Infrastructure.Clients;
 using StockTrader.Infrastructure.Data.DbContexts.PortfolioService;
@@ -30,6 +31,7 @@ builder.Services.AddScoped<DbContext, PortfolioServiceDbContext>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IMessageHandler<IMessage<PriceDto>>, PortfolioPriceMessageHandler>();
 builder.Services.AddScoped<IMessageHandler<IMessage<OrderDto>>, OrderMessageHandler>();
+builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 
 builder.Services.AddDbContext<PortfolioServiceDbContext>(options =>
 {

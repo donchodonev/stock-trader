@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using StockTrader.Application.Constants;
 using StockTrader.Application.DTOs;
 using StockTrader.Application.Messages;
+using StockTrader.Application.Response;
 using StockTrader.Core.Interfaces;
 
 namespace StockTrader.Portfolios
@@ -12,13 +13,15 @@ namespace StockTrader.Portfolios
     public class Portfolios(
         ILogger<Portfolios> logger,
         IMessageHandler<IMessage<PriceDto>> priceMessageHandler,
-        IMessageHandler<IMessage<OrderDto>> orderMessageHandler)
+        IMessageHandler<IMessage<OrderDto>> orderMessageHandler,
+        IPortfolioService portfolioService)
     {
         [Function(nameof(GetPortfolio))]
-        public async Task<object> GetPortfolio([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "portfolio/{portfolioId}")] HttpRequestData req, string portfolioId)
+        public async Task<PortfolioResponse> GetPortfolio([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "person/{personId}/portfolio")] HttpRequestData req, int personId)
         {
-            logger.LogInformation($"{nameof(GetPortfolio)} is executing.");
-            return new { query = req.Query };
+            var personStocks = await portfolioService.GetPersonPortfolioAsync(personId);
+            var response = personStocks.Select(x => new StockDto { Price = x.Stock.Price, Quantity = x.Quantity, Ticker = x.Stock.Ticker }).ToList();
+            return new PortfolioResponse { Stocks = response }; //not the best idea but no time for fluent result setup
         }
 
         [Function(nameof(ConsumePrice))]
