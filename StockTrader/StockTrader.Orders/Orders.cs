@@ -3,6 +3,8 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 using StockTrader.Application.Constants;
+using StockTrader.Application.DTOs;
+using StockTrader.Application.Messages;
 using StockTrader.Application.Requests;
 using StockTrader.Core.Interfaces;
 
@@ -10,7 +12,7 @@ using System.Text.Json;
 
 namespace StockTrader.Orders
 {
-    public class Orders(ILogger<Orders> log, IOrderService orderService)
+    public class Orders(ILogger<Orders> log, IOrderService orderService, IMessageHandler<IMessage<PriceDto>> priceMessageHandler)
     {
         [Function(nameof(PostAsync))]
         public async Task PostAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "order")] HttpRequestData req)
@@ -25,10 +27,10 @@ namespace StockTrader.Orders
         public async Task ConsumePrice(
             [ServiceBusTrigger(
                 MessagingConstants.Topics.PRICES,
-                MessagingConstants.Subscriptions.PORTFOLIO,
-                Connection = "AzureServiceBusSendListenConnectionString")] string message)
+                MessagingConstants.Subscriptions.ORDER,
+                Connection = "AzureServiceBusSendListenConnectionString")] PriceMessage message)
         {
-            log.LogInformation($"Received message: {message}");
+            await priceMessageHandler.HandleAsync(message);
         }
     }
 }

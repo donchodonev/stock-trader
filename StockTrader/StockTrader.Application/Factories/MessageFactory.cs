@@ -2,6 +2,7 @@
 using StockTrader.Application.Messages;
 using StockTrader.Core.Entities;
 using StockTrader.Core.Enums;
+using StockTrader.Core.Interfaces;
 
 namespace StockTrader.Application.Factories
 {
@@ -12,5 +13,8 @@ namespace StockTrader.Application.Factories
 
         public static OrderMessage ToOrderMessage(this Order order)
             => new OrderMessage(MessageSource.OrderService, new OrderDto(order.Id, order.PersonId, order.Ticker, order.Quantity, order.OrderStatus));
+
+        public static OrderMessage ToFailedOrderMessage(this IMessage<OrderDto> message)
+            => new OrderMessage(MessageSource.PortfolioService, new OrderDto(message.Payload.Id, message.Payload.PersonId, message.Payload.Ticker, message.Payload.Quantity, OrderStatus.Failed));
     }
 }

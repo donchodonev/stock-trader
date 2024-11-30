@@ -7,7 +7,7 @@ using StockTrader.Core.Interfaces;
 
 namespace StockTrader.Application.Handlers
 {
-    public class OrderPriceMessageHandler(ILoggerFactory loggerFactory, IRepository<Stock> stockRepository) : IMessageHandler<IMessage<PriceDto>>
+    public class OrderPriceMessageHandler(ILoggerFactory loggerFactory, IRepository<Stock> stockRepository, IMessageClient messageClient) : IMessageHandler<IMessage<PriceDto>>
     {
         private readonly ILogger _logger = loggerFactory.CreateLogger<OrderPriceMessageHandler>();
 

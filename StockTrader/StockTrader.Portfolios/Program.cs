@@ -29,6 +29,7 @@ builder.Services.AddSingleton<IMessageClient, AzureServiceBusClient>();
 builder.Services.AddScoped<DbContext, PortfolioServiceDbContext>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IMessageHandler<IMessage<PriceDto>>, PortfolioPriceMessageHandler>();
+builder.Services.AddScoped<IMessageHandler<IMessage<OrderDto>>, OrderMessageHandler>();
 
 builder.Services.AddDbContext<PortfolioServiceDbContext>(options =>
 {

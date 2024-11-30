@@ -9,7 +9,10 @@ using StockTrader.Core.Interfaces;
 
 namespace StockTrader.Portfolios
 {
-    public class Portfolios(ILogger<Portfolios> logger, IMessageHandler<IMessage<PriceDto>> priceMessageHandler)
+    public class Portfolios(
+        ILogger<Portfolios> logger,
+        IMessageHandler<IMessage<PriceDto>> priceMessageHandler,
+        IMessageHandler<IMessage<OrderDto>> orderMessageHandler)
     {
         [Function(nameof(GetPortfolio))]
         public async Task<object> GetPortfolio([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "portfolio/{portfolioId}")] HttpRequestData req, string portfolioId)
@@ -25,8 +28,17 @@ namespace StockTrader.Portfolios
                 MessagingConstants.Subscriptions.PORTFOLIO,
                 Connection = "AzureServiceBusSendListenConnectionString")] PriceMessage message)
         {
-            logger.LogInformation($"Received message: {message}");
             await priceMessageHandler.HandleAsync(message);
+        }
+
+        [Function(nameof(ConsumeOrder))]
+        public async Task ConsumeOrder(
+        [ServiceBusTrigger(
+            MessagingConstants.Topics.ORDER_SENT,
+                MessagingConstants.Subscriptions.PORTFOLIO,
+                Connection = "AzureServiceBusSendListenConnectionString")] OrderMessage message)
+        {
+            await orderMessageHandler.HandleAsync(message);
         }
     }
 }
