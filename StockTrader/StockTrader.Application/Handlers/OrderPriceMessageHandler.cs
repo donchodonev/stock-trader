@@ -7,13 +7,13 @@ using StockTrader.Core.Interfaces;
 
 namespace StockTrader.Application.Handlers
 {
-    public class PriceMessageHandler(ILoggerFactory loggerFactory, IRepository<VersionedStock> stockRepository) : IMessageHandler<IMessage<PriceDto>>
+    public class OrderPriceMessageHandler(ILoggerFactory loggerFactory, IRepository<Stock> stockRepository) : IMessageHandler<IMessage<PriceDto>>
     {
-        private readonly ILogger _logger = loggerFactory.CreateLogger<PriceMessageHandler>();
+        private readonly ILogger _logger = loggerFactory.CreateLogger<OrderPriceMessageHandler>();
 
         public async Task HandleAsync(IMessage<PriceDto> message)
         {
-            _logger.LogInformation($"{nameof(PriceMessageHandler)}.{nameof(HandleAsync)}: {message}");
+            _logger.LogInformation($"{nameof(OrderPriceMessageHandler)}.{nameof(HandleAsync)}: {message}");
 
             var stock = message.ToStock();
 

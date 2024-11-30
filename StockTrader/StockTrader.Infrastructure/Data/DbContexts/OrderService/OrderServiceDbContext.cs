@@ -8,8 +8,12 @@ namespace StockTrader.Infrastructure.Data.DbContexts.OrderService
     {
         public DbSet<Order> Order { get; set; }
 
+        public DbSet<Stock> Stock { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Order
+
             modelBuilder
                 .Entity<Order>()
                 .Property(x => x.Id)
@@ -50,6 +54,44 @@ namespace StockTrader.Infrastructure.Data.DbContexts.OrderService
             modelBuilder
                 .Entity<Order>()
                 .HasKey(x => x.Id);
+
+            #endregion
+
+            #region Stock
+
+            modelBuilder
+               .Entity<Stock>()
+               .Property(p => p.Id)
+               .IsRequired()
+               .UseIdentityColumn();
+
+            modelBuilder
+                .Entity<Stock>()
+                .Property(p => p.Ticker)
+                .HasMaxLength(4)
+                .IsRequired();
+
+            modelBuilder
+                .Entity<Stock>()
+                .Property(p => p.Price)
+                .IsRequired();
+
+            modelBuilder
+                .Entity<Stock>()
+                .Property(p => p.CreatedOn)
+                .IsRequired();
+
+            modelBuilder
+                .Entity<Stock>()
+                .Property(p => p.UpdatedOn)
+                .IsRequired();
+
+            modelBuilder
+                .Entity<Stock>()
+                .HasKey(p => p.Id);
+
+            #endregion
+
         }
     }
 }

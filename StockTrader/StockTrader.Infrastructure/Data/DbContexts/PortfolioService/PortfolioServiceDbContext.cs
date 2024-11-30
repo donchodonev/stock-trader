@@ -8,7 +8,7 @@ namespace StockTrader.Infrastructure.Data.DbContexts.PortfolioService
     {
         public DbSet<Person> Person { get; set; }
 
-        public DbSet<VersionedStock> Stock { get; set; }
+        public DbSet<PortfolioStock> Stock { get; set; }
 
         public DbSet<PersonStock> PersonStock { get; set; }
 
@@ -46,39 +46,44 @@ namespace StockTrader.Infrastructure.Data.DbContexts.PortfolioService
 
             #region Stock
 
+
             modelBuilder
-                .Entity<VersionedStock>()
+                .Entity<PortfolioStock>()
+                .ToTable("Stock");
+
+            modelBuilder
+                .Entity<PortfolioStock>()
                 .Property(p => p.Id)
                 .IsRequired()
                 .UseIdentityColumn();
 
             modelBuilder
-                .Entity<VersionedStock>()
+                .Entity<PortfolioStock>()
                 .Property(p => p.Ticker)
                 .HasMaxLength(4)
                 .IsRequired();
 
             modelBuilder
-                .Entity<VersionedStock>()
+                .Entity<PortfolioStock>()
                 .Property(p => p.Price)
                 .IsRequired();
 
             modelBuilder
-                .Entity<VersionedStock>()
+                .Entity<PortfolioStock>()
                 .Property(p => p.CreatedOn)
                 .IsRequired();
 
             modelBuilder
-                .Entity<VersionedStock>()
+                .Entity<PortfolioStock>()
                 .Property(p => p.UpdatedOn)
                 .IsRequired();
 
             modelBuilder
-                .Entity<VersionedStock>()
+                .Entity<PortfolioStock>()
                 .HasKey(p => p.Id);
 
             modelBuilder
-                .Entity<VersionedStock>()
+                .Entity<PortfolioStock>()
                 .HasMany(x => x.PersonStocks)
                 .WithOne(x => x.Stock)
                 .HasForeignKey(x => x.StockId);

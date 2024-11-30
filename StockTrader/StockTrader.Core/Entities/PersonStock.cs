@@ -10,7 +10,7 @@ namespace StockTrader.Core.Entities
 
         public int StockId { get; set; }
 
-        public VersionedStock Stock { get; set; }
+        public PortfolioStock Stock { get; set; }
 
         public int Quantity { get; set; }
 

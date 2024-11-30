@@ -9,7 +9,7 @@ namespace StockTrader.Application.Factories
         public static Stock Create(string ticker, decimal price)
             => new Stock { Ticker = ticker, Price = price };
 
-        public static VersionedStock ToStock(this IMessage<PriceDto> priceDto)
-            => new VersionedStock { Ticker = priceDto.Payload.Ticker, Price = priceDto.Payload.Price};
+        public static PortfolioStock ToStock(this IMessage<PriceDto> priceDto)
+            => new PortfolioStock { Ticker = priceDto.Payload.Ticker, Price = priceDto.Payload.Price};
     }
 }

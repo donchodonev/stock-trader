@@ -65,7 +65,7 @@ namespace StockTrader.Infrastructure.Data.Migrations.PortfolioService
                     b.ToTable("PersonStock");
                 });
 
-            modelBuilder.Entity("StockTrader.Core.Entities.VersionedStock", b =>
+            modelBuilder.Entity("StockTrader.Core.Entities.PortfolioStock", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,7 +89,7 @@ namespace StockTrader.Infrastructure.Data.Migrations.PortfolioService
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stock");
+                    b.ToTable("Stock", (string)null);
                 });
 
             modelBuilder.Entity("StockTrader.Core.Entities.PersonStock", b =>
@@ -100,7 +100,7 @@ namespace StockTrader.Infrastructure.Data.Migrations.PortfolioService
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StockTrader.Core.Entities.VersionedStock", "Stock")
+                    b.HasOne("StockTrader.Core.Entities.PortfolioStock", "Stock")
                         .WithMany("PersonStocks")
                         .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -116,7 +116,7 @@ namespace StockTrader.Infrastructure.Data.Migrations.PortfolioService
                     b.Navigation("PersonStocks");
                 });
 
-            modelBuilder.Entity("StockTrader.Core.Entities.VersionedStock", b =>
+            modelBuilder.Entity("StockTrader.Core.Entities.PortfolioStock", b =>
                 {
                     b.Navigation("PersonStocks");
                 });

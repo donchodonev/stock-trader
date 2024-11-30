@@ -3,37 +3,33 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 using StockTrader.Application.Constants;
+using StockTrader.Application.Requests;
+using StockTrader.Core.Interfaces;
 
 using System.Text.Json;
 
 namespace StockTrader.Orders
 {
-    public class Orders
+    public class Orders(ILogger<Orders> log, IOrderService orderService)
     {
-        private readonly ILogger<Orders> _logger;
-
-        public Orders(ILogger<Orders> log)
-        {
-            _logger = log;
-        }
-
         [Function(nameof(PostAsync))]
-        public async Task<object> PostAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "order")] HttpRequestData req)
+        public async Task PostAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "order")] HttpRequestData req)
         {
-            _logger.LogInformation($"{nameof(PostAsync)} is executing.");
-            var requestBody = await JsonSerializer.DeserializeAsync<object>(req.Body);
-            return requestBody;
+            log.LogInformation($"{nameof(PostAsync)} is executing.");
+
+            var requestBody = await JsonSerializer.DeserializeAsync<StockRequest>(req.Body);
+            await orderService.HandleOrderRequestAsync(requestBody);
         }
 
         [Function(nameof(ConsumePrice))]
         public async Task ConsumePrice(
             [ServiceBusTrigger(
-                        MessagingConstants.Topics.PRICES,
-                        MessagingConstants.Subscriptions.PORTFOLIO,
-                        Connection = "AzureServiceBusSendListenConnectionString")] string message)
-                {
-                    _logger.LogInformation($"Received message: {message}");
-                }
+                MessagingConstants.Topics.PRICES,
+                MessagingConstants.Subscriptions.PORTFOLIO,
+                Connection = "AzureServiceBusSendListenConnectionString")] string message)
+        {
+            log.LogInformation($"Received message: {message}");
+        }
     }
 }
 

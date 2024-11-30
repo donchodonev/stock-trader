@@ -6,9 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using StockTrader.Application.DTOs;
+using StockTrader.Application.Handlers;
+using StockTrader.Application.Services;
 using StockTrader.Core.Interfaces;
 using StockTrader.Infrastructure.Clients;
 using StockTrader.Infrastructure.Data.DbContexts.OrderService;
+using StockTrader.Infrastructure.Data.Repositories;
 using StockTrader.Infrastructure.Extensions;
 using StockTrader.Infrastructure.Factories;
 
@@ -22,6 +26,10 @@ builder.Services.AddFunctionsWorkerDefaults();
 builder.Services.AddFunctionsWorkerCore();
 builder.Services.AddSingleton(new ServiceBusClient(builder.Configuration.GetConnectionString("AzureServiceBusSendListenConnectionString")));
 builder.Services.AddSingleton<IMessageClient, AzureServiceBusClient>();
+builder.Services.AddScoped<DbContext, OrderServiceDbContext>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IMessageHandler<IMessage<PriceDto>>, OrderPriceMessageHandler>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddDbContext<OrderServiceDbContext>(options =>
 {
