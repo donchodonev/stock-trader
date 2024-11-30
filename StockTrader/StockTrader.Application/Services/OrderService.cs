@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using StockTrader.Application.Constants;
+using StockTrader.Application.DTOs;
 using StockTrader.Application.Factories;
 using StockTrader.Core.Entities;
 using StockTrader.Core.Interfaces;
@@ -12,14 +13,21 @@ namespace StockTrader.Application.Services
     {
         private readonly ILogger<OrderService> _logger = loggerFactory.CreateLogger<OrderService>();
 
-        public async Task HandleOrderRequestAsync(IStockRequest request)
+        public async Task<long> CreateOrderAsync(IStockRequest request)
         {
-            _logger.LogInformation($"Entered {nameof(HandleOrderRequestAsync)} at {DateTime.UtcNow}");
+            _logger.LogInformation($"Entered {nameof(CreateOrderAsync)} at {DateTime.UtcNow}");
 
             var order = request.CreateOrder();
             await orderRepository.AddAsync(order);
 
             await messageClient.SendMessageAsync(order.ToOrderMessage(), MessagingConstants.Topics.ORDER_SENT);
+
+            return order.Id;
+        }
+
+        public async Task<Order> GetOrderAsync(long orderId)
+        {
+            return await orderRepository.FirstOrDefaultAsync(x => x.Id == orderId);
         }
     }
 }

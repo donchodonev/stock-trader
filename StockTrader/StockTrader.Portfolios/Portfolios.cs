@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 
 using StockTrader.Application.Constants;
 using StockTrader.Application.DTOs;
+using StockTrader.Application.Factories;
 using StockTrader.Application.Messages;
 using StockTrader.Application.Response;
 using StockTrader.Core.Interfaces;
@@ -20,8 +21,8 @@ namespace StockTrader.Portfolios
         public async Task<PortfolioResponse> GetPortfolio([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "person/{personId}/portfolio")] HttpRequestData req, int personId)
         {
             var personStocks = await portfolioService.GetPersonPortfolioAsync(personId);
-            var response = personStocks.Select(x => new StockDto { Price = x.Stock.Price, Quantity = x.Quantity, Ticker = x.Stock.Ticker }).ToList();
-            return new PortfolioResponse { Stocks = response }; //not the best idea but no time for fluent result setup
+            var response = personStocks.Select(x => x.ToStockDto()).ToList();
+            return new PortfolioResponse { Stocks = response };
         }
 
         [Function(nameof(ConsumePrice))]
