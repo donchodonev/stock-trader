@@ -15,9 +15,10 @@ namespace StockTrader.Application.Factories
                 Ticker = request.Ticker,
                 OrderAction = request.OrderAction,
                 OrderStatus = OrderStatus.InProgress,
+                StatusReason = "Order sent for processing"
             };
 
         public static OrderDto ToDto(this Order order)
-            => new OrderDto(order.Id, order.PersonId, order.Ticker, order.Quantity, order.OrderStatus, order.OrderAction);
+            => new OrderDto(order.Id, order.PersonId, order.Ticker, order.Quantity, order.OrderStatus, order.OrderAction, order.StatusReason);
     }
 }

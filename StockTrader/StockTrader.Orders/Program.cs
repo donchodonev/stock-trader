@@ -29,6 +29,7 @@ builder.Services.AddSingleton<IMessageClient, AzureServiceBusClient>();
 builder.Services.AddScoped<DbContext, OrderServiceDbContext>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IMessageHandler<IMessage<PriceDto>>, OrderPriceMessageHandler>();
+builder.Services.AddScoped<IMessageHandler<IMessage<OrderReceiptDto>>, OrderReceiptMessageHandler>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddDbContext<OrderServiceDbContext>(options =>

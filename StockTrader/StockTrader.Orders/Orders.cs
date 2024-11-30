@@ -14,7 +14,11 @@ using System.Text.Json;
 
 namespace StockTrader.Orders
 {
-    public class Orders(ILogger<Orders> log, IOrderService orderService, IMessageHandler<IMessage<PriceDto>> priceMessageHandler)
+    public class Orders(
+        ILogger<Orders> log,
+        IOrderService orderService,
+        IMessageHandler<IMessage<PriceDto>> priceMessageHandler,
+        IMessageHandler<IMessage<OrderReceiptDto>> orderReceiptHandler)
     {
         [Function(nameof(PostOrder))]
         public async Task<object> PostOrder([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "order")] HttpRequestData req)
@@ -23,7 +27,7 @@ namespace StockTrader.Orders
 
             var requestBody = await JsonSerializer.DeserializeAsync<StockRequest>(req.Body);
             var orderId = await orderService.CreateOrderAsync(requestBody);
-            return new {OrderId = orderId};
+            return new { OrderId = orderId };
         }
 
         [Function(nameof(GetOrder))]
@@ -46,6 +50,16 @@ namespace StockTrader.Orders
                 Connection = "AzureServiceBusSendListenConnectionString")] PriceMessage message)
         {
             await priceMessageHandler.HandleAsync(message);
+        }
+
+        [Function(nameof(HandleOrderReceipt))]
+        public async Task HandleOrderReceipt(
+            [ServiceBusTrigger(
+                MessagingConstants.Topics.ORDER_RETURNED,
+                MessagingConstants.Subscriptions.ORDER,
+                Connection = "AzureServiceBusSendListenConnectionString")] OrderReceiptMessage message)
+        {
+            await orderReceiptHandler.HandleAsync(message);
         }
     }
 }

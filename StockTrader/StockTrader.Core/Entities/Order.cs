@@ -20,5 +20,7 @@ namespace StockTrader.Core.Entities
         public DateTime CreatedOn { get; set; }
 
         public DateTime UpdatedOn { get; set; }
+
+        public string StatusReason { get; set; }
     }
 }

@@ -48,6 +48,11 @@ namespace StockTrader.Infrastructure.Data.DbContexts.OrderService
 
             modelBuilder
                 .Entity<Order>()
+                .Property(x => x.StatusReason)
+                .IsRequired();
+
+            modelBuilder
+                .Entity<Order>()
                 .Property(x => x.CreatedOn)
                 .IsRequired();
 

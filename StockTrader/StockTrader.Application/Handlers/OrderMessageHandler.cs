@@ -2,7 +2,7 @@
 
 using StockTrader.Application.Constants;
 using StockTrader.Application.DTOs;
-using StockTrader.Application.Factories;
+using StockTrader.Application.Messages;
 using StockTrader.Core.Entities;
 using StockTrader.Core.Enums;
 using StockTrader.Core.Interfaces;
@@ -20,7 +20,7 @@ namespace StockTrader.Application.Handlers
 
             if (stock == null)
             {
-                await messageClient.SendMessageAsync(message.ToFailedOrderMessage(), MessagingConstants.Topics.ORDER_RETURNED);
+                await SendStockNotFoundFailureMessageAsync(message.Payload.Id);
                 return;
             }
 
@@ -37,13 +37,14 @@ namespace StockTrader.Application.Handlers
             {
                 if (isSellOperation)
                 {
-                    await messageClient.SendMessageAsync(message.ToFailedOrderMessage(), MessagingConstants.Topics.ORDER_RETURNED);
+                    await SendPersonCannotSellOnFirstOrderMessageAsync(message.Payload.Id);
                     return;
                 }
 
                 person = new Person { Id = message.Payload.PersonId, };
                 person.PersonStocks = new List<PersonStock> { personNewStock };
                 await personRepository.AddAsync(person);
+                await SendSuccessMessage(message.Payload.Id);
                 return;
             }
 
@@ -53,7 +54,7 @@ namespace StockTrader.Application.Handlers
             {
                 if (isSellOperation)
                 {
-                    await messageClient.SendMessageAsync(message.ToFailedOrderMessage(), MessagingConstants.Topics.ORDER_RETURNED);
+                    await SendPersonCannotHaveNegativeQuantityOfStockMessageAsync(message.Payload.Id);
                     return;
                 }
 
@@ -63,14 +64,39 @@ namespace StockTrader.Application.Handlers
             {
                 if (isSellOperation && personExistingStock.Quantity - message.Payload.Quantity < 0)
                 {
-                    await messageClient.SendMessageAsync(message.ToFailedOrderMessage(), MessagingConstants.Topics.ORDER_RETURNED);
+                    await SendPersonCannotHaveNegativeQuantityOfStockMessageAsync(message.Payload.Id);
                     return;
                 }
 
                 personExistingStock.Quantity += message.Payload.Quantity;
             }
 
+            await SendSuccessMessage(message.Payload.Id);
             await personRepository.SaveChangesAsync();
         }
+
+        private Task SendStockNotFoundFailureMessageAsync(long messageId)
+            => messageClient.SendMessageAsync(
+                new OrderReceiptMessage(
+                    MessageSource.PortfolioService,
+                    new OrderReceiptDto(messageId, OrderStatus.Failed, "Stock not found")), MessagingConstants.Topics.ORDER_RETURNED);
+
+        private Task SendPersonCannotSellOnFirstOrderMessageAsync(long messageId)
+            => messageClient.SendMessageAsync(
+                new OrderReceiptMessage(
+                    MessageSource.PortfolioService,
+                    new OrderReceiptDto(messageId, OrderStatus.Failed, "Person's first order cannot be a selling operation")), MessagingConstants.Topics.ORDER_RETURNED);
+
+        private Task SendPersonCannotHaveNegativeQuantityOfStockMessageAsync(long messageId)
+            => messageClient.SendMessageAsync(
+                new OrderReceiptMessage(
+                    MessageSource.PortfolioService,
+                    new OrderReceiptDto(messageId, OrderStatus.Failed, "Person cannot sell stock he has no quantity of")), MessagingConstants.Topics.ORDER_RETURNED);
+
+        private Task SendSuccessMessage(long messageId)
+            => messageClient.SendMessageAsync(
+                new OrderReceiptMessage(
+                    MessageSource.PortfolioService,
+                    new OrderReceiptDto(messageId, OrderStatus.Completed, "Order processed, portfolio updated")), MessagingConstants.Topics.ORDER_RETURNED);
     }
 }

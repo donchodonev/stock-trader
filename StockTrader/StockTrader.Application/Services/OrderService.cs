@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using StockTrader.Application.Constants;
+using StockTrader.Application.DTOs;
 using StockTrader.Application.Factories;
 using StockTrader.Core.Entities;
 using StockTrader.Core.Enums;
@@ -34,6 +35,11 @@ namespace StockTrader.Application.Services
         public async Task<Order> GetOrderAsync(long orderId)
         {
             return await orderRepository.FirstOrDefaultAsync(x => x.Id == orderId);
+        }
+
+        public async Task UpdateOrderAsync(IMessage<OrderReceiptDto> order)
+        {
+
         }
     }
 }
