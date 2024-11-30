@@ -4,10 +4,8 @@ using StockTrader.Core.Entities;
 
 namespace StockTrader.Infrastructure.Data.DbContexts.PortfolioService
 {
-    public class PortfolioServiceDbContext : DbContext
+    public class PortfolioServiceDbContext(DbContextOptions<PortfolioServiceDbContext> options) : DbContext(options)
     {
-        public PortfolioServiceDbContext(DbContextOptions<PortfolioServiceDbContext> options) : base(options) { }
-
         public DbSet<Person> Person { get; set; }
 
         public DbSet<VersionedStock> Stock { get; set; }
@@ -78,11 +76,6 @@ namespace StockTrader.Infrastructure.Data.DbContexts.PortfolioService
             modelBuilder
                 .Entity<VersionedStock>()
                 .HasKey(p => p.Id);
-
-            modelBuilder
-                .Entity<VersionedStock>()
-                .Property(p => p.RowVersion)
-                .IsRowVersion();
 
             modelBuilder
                 .Entity<VersionedStock>()

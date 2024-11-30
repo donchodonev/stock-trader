@@ -23,8 +23,8 @@ namespace StockTrader.Infrastructure.Data.Repositories
             await SaveChangesAsync();
         }
 
-        public async Task<T> FindAsync(Expression<Func<T, bool>> predicate)
-            => await _dbSet.FindAsync(predicate);
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
+            => await _dbSet.FirstOrDefaultAsync(predicate);
 
         public IQueryable<T> GetAll()
         {

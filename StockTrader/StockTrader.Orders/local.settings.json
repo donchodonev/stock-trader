@@ -6,7 +6,6 @@
   },
   "ConnectionStrings": {
     "OrdersDb": "Host=localhost:5551;Database=Orders;Username=user;Password=password",
-    "AzureServiceBusSendOnlyConnectionString": "",
     "AzureServiceBusSendListenConnectionString": ""
   }
 } 

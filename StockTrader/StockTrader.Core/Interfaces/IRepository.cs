@@ -6,7 +6,7 @@ namespace StockTrader.Core.Interfaces
     {
         IQueryable<T> GetAll();
 
-        Task<T> FindAsync(Expression<Func<T, bool>> predicate);
+        Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
 
         Task AddAsync(T entity);
 

@@ -7,6 +7,5 @@
   "ConnectionStrings": {
     "PriceDb": "Host=localhost:5554;Database=Prices;Username=user;Password=password",
     "AzureServiceBusSendOnlyConnectionString": "",
-    "AzureServiceBusSendListenConnectionString": ""
   }
 }

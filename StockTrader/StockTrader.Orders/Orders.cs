@@ -2,6 +2,8 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
+using StockTrader.Application.Constants;
+
 using System.Text.Json;
 
 namespace StockTrader.Orders
@@ -22,6 +24,16 @@ namespace StockTrader.Orders
             var requestBody = await JsonSerializer.DeserializeAsync<object>(req.Body);
             return requestBody;
         }
+
+        [Function(nameof(ConsumePrice))]
+        public async Task ConsumePrice(
+            [ServiceBusTrigger(
+                        MessagingConstants.Topics.PRICES,
+                        MessagingConstants.Subscriptions.PORTFOLIO,
+                        Connection = "AzureServiceBusSendListenConnectionString")] string message)
+                {
+                    _logger.LogInformation($"Received message: {message}");
+                }
     }
 }
 

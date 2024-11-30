@@ -6,7 +6,6 @@
   },
   "ConnectionStrings": {
     "PortfoliosDb": "Host=localhost:5552;Database=Portfolios;Username=user;Password=password",
-    "AzureServiceBusSendOnlyConnectionString": "",
     "AzureServiceBusSendListenConnectionString": ""
   }
 }

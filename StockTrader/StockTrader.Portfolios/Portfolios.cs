@@ -2,22 +2,31 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
+using StockTrader.Application.Constants;
+using StockTrader.Application.DTOs;
+using StockTrader.Application.Messages;
+using StockTrader.Core.Interfaces;
+
 namespace StockTrader.Portfolios
 {
-    public class Portfolios
+    public class Portfolios(ILogger<Portfolios> logger, IMessageHandler<IMessage<PriceDto>> priceMessageHandler)
     {
-        private readonly ILogger<Portfolios> _logger;
-
-        public Portfolios(ILogger<Portfolios> logger)
+        [Function(nameof(GetPortfolio))]
+        public async Task<object> GetPortfolio([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "portfolio/{portfolioId}")] HttpRequestData req, string portfolioId)
         {
-            _logger = logger;
+            logger.LogInformation($"{nameof(GetPortfolio)} is executing.");
+            return new { query = req.Query };
         }
 
-        [Function(nameof(GetAsync))]
-        public async Task<object> GetAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "portfolio/{portfolioId}")] HttpRequestData req, string portfolioId)
+        [Function(nameof(ConsumePrice))]
+        public async Task ConsumePrice(
+            [ServiceBusTrigger(
+                MessagingConstants.Topics.PRICES,
+                MessagingConstants.Subscriptions.PORTFOLIO,
+                Connection = "AzureServiceBusSendListenConnectionString")] PriceMessage message)
         {
-            _logger.LogInformation($"{nameof(GetAsync)} is executing.");
-            return new { query = req.Query };
+            logger.LogInformation($"Received message: {message}");
+            await priceMessageHandler.HandleAsync(message);
         }
     }
 }

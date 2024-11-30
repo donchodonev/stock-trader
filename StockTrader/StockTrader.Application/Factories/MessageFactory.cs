@@ -1,11 +1,13 @@
-﻿using StockTrader.Application.Messages;
+﻿using StockTrader.Application.DTOs;
+using StockTrader.Application.Messages;
 using StockTrader.Core.Entities;
+using StockTrader.Core.Enums;
 
 namespace StockTrader.Application.Factories
 {
     public static class MessageFactory
     {
-        public static NewPriceMessage ToNewPriceMessage(this Stock stock)
-            => new NewPriceMessage(Core.Enums.MessageSource.PriceService, (stock.Ticker, stock.Price));
+        public static PriceMessage ToPriceMessage(this Stock stock)
+            => new PriceMessage(MessageSource.PriceService, new PriceDto(stock.Ticker, stock.Price));
     }
 }

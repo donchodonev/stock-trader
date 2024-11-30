@@ -6,9 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using StockTrader.Application.DTOs;
+using StockTrader.Application.Handlers;
 using StockTrader.Core.Interfaces;
 using StockTrader.Infrastructure.Clients;
 using StockTrader.Infrastructure.Data.DbContexts.PortfolioService;
+using StockTrader.Infrastructure.Data.Repositories;
 using StockTrader.Infrastructure.Extensions;
 using StockTrader.Infrastructure.Factories;
 
@@ -23,6 +26,9 @@ builder.Services.AddFunctionsWorkerCore();
 
 builder.Services.AddSingleton(new ServiceBusClient(builder.Configuration.GetConnectionString("AzureServiceBusSendListenConnectionString")));
 builder.Services.AddSingleton<IMessageClient, AzureServiceBusClient>();
+builder.Services.AddScoped<DbContext, PortfolioServiceDbContext>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IMessageHandler<IMessage<PriceDto>>, PriceMessageHandler>();
 
 builder.Services.AddDbContext<PortfolioServiceDbContext>(options =>
 {
